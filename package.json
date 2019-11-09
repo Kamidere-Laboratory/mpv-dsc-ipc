@@ -1,0 +1,17 @@
+{
+  "name": "mpv-ipce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "anitomy-js": "^4.0.1",
+    "debug": "^4.1.1",
+    "discord-rpc": "^3.1.0",
+    "mpv-ipc": "^0.1.3"
+  }
+}
