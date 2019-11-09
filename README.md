@@ -18,3 +18,6 @@ Windows:
     - move `npm.bat` on powershell/console
     - type `install`
   - Have fun everything should work now
+
+![](img1.png)
+![](img2.png)
