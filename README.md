@@ -19,5 +19,21 @@ Windows:
     - type `install`
   - Have fun everything should work now
 
+## File struct:
+
+- mpv.exe
+- mpv (dir)
+  - mpv.conf
+  - node (dir)
+    - everything form node.js
+  - scripts (dir)
+    - startup.js
+  - node-scripts (dir)
+    - mpv-dsc-ipc (dir)
+      - package.json
+      - index.js
+
+## Screenshoots:
+
 ![](img1.png)
 ![](img2.png)
