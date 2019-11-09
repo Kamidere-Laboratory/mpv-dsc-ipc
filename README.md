@@ -19,6 +19,7 @@ Windows:
     - type `install`
   - Have fun everything should work now
 
+<<<<<<< HEAD
 ## File struct:
 
 - mpv.exe
@@ -35,5 +36,7 @@ Windows:
 
 ## Screenshoots:
 
+=======
+>>>>>>> a24aad1ab9a83895e984d008269c1e8996354169
 ![](img1.png)
 ![](img2.png)
