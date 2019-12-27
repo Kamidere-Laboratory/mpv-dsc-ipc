@@ -30,7 +30,9 @@ rpc.login({ clientId }).catch(debug);
 async function updateActivity(pause = false) {
   const titleData = await anitomy.parse(await player.getProperty("filename"));
   rpc.setActivity({
-    details: titleData["anime_title"],
+    details: titleData["episode_number"]
+      ? `${titleData["anime_title"]} ep. ${titleData["episode_number"]}`
+      : titleData["anime_title"],
     endTimestamp: pause
       ? 0
       : Date.now() + (await player.getProperty("time-remaining")) * 1000,
