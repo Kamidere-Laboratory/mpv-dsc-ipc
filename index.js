@@ -2,8 +2,10 @@ const mpv = require("mpv-ipc");
 const DiscordRPC = require("discord-rpc");
 const anitomy = require("anitomy-js");
 const debug = require("debug")("MPV:Client");
+const path = require("path");
 process.env.DEBUG = "*";
-const player = new mpv.MPVClient("\\\\.\\pipe\\mpv");
+const mpvConfDir = path.join(process.argv[2]);
+const player = new mpv.MPVClient(path.join(mpvConfDir, "mpv.sock"));
 const clientId = "608285274736427038";
 
 DiscordRPC.register(clientId);

@@ -8,8 +8,9 @@ function mp_event_loop() {
       mp.dispatch_event(e);
       mp.command_native([
         "run",
-        "D:\\syncplay\\Player\\mpv\\node\\node.exe",
-        "D:\\syncplay\\Player\\mpv\\node-scripts\\mpv-dsc-ipc\\index.js"
+        "node",
+        mp.get_script_file() + "/../../node-scripts/mpv-dsc-ipc/index.js",
+        mp.get_script_file() + "/../../",
       ]);
     } else {
       wait = mp.process_timers() / 1000;
