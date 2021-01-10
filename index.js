@@ -28,23 +28,20 @@ rpc.on("ready", async () => {
     await updateActivity(false);
   });
 });
-rpc.login({ clientId }).catch(debug);
 
-async function getName(){
+async function getName() {
   const path = await player.getProperty("path");
-  if (path.startsWith("https://") || path.startsWith("http://")){
+  if (path.startsWith("https://") || path.startsWith("http://")) {
     return await player.getProperty("media-title");
-  }else{
-    const titleData = await anitomy.parse(await player.getProperty("filename"));
-    return titleData["episode_number"]
+  }
+  const titleData = await anitomy.parse(await player.getProperty("filename"));
+  return titleData["episode_number"]
     ? `${titleData["anime_title"]} ep. ${titleData["episode_number"]}`
     : titleData["anime_title"];
-  }
 }
 
 async function updateActivity(pause = false) {
   const details = await getName();
-  console.log(details);
   rpc.setActivity({
     details: details,
     endTimestamp: pause
@@ -54,3 +51,7 @@ async function updateActivity(pause = false) {
     smallImageKey: pause ? "pause" : "play"
   });
 }
+
+(async () => {
+  await rpc.login({ clientId });
+})();
