@@ -11,7 +11,7 @@ const clientId = "608285274736427038";
 
 DiscordRPC.register(clientId);
 const rpc = new DiscordRPC.Client({ transport: "ipc" });
-rpc.on("ready", async () => {
+rpc.on("ready", () => {
   player.observeMediaTitle(async () => {
     await updateActivity();
   });
@@ -31,10 +31,13 @@ rpc.on("ready", async () => {
 
 async function getName() {
   const path = await player.getProperty("path");
+
   if (path.startsWith("https://") || path.startsWith("http://")) {
-    return await player.getProperty("media-title");
+    return await player
+      .getProperty("media-title");
   }
   const titleData = await anitomy.parse(await player.getProperty("filename"));
+
   return titleData["episode_number"]
     ? `${titleData["anime_title"]} ep. ${titleData["episode_number"]}`
     : titleData["anime_title"];
@@ -42,6 +45,7 @@ async function getName() {
 
 async function updateActivity(pause = false) {
   const details = await getName();
+
   rpc.setActivity({
     details: details,
     endTimestamp: pause
