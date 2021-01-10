@@ -8,11 +8,12 @@ const mpvConfDir = path.join(process.argv[2]);
 const player = new mpv.MPVClient(path.join(mpvConfDir, "mpv.sock"));
 const clientId = "608285274736427038";
 
+
 DiscordRPC.register(clientId);
 const rpc = new DiscordRPC.Client({ transport: "ipc" });
 rpc.on("ready", () => {
-  player.observeMediaTitle(title => {
-    updateActivity();
+  player.observeMediaTitle(async () => {
+    await updateActivity();
   });
 
   player.onEndFile(e => {
@@ -20,21 +21,33 @@ rpc.on("ready", () => {
     rpc.destroy();
   });
 
-  player.on("pause", () => {
-    updateActivity(true);
+  player.on("pause", async () => {
+    await updateActivity(true);
   });
-  player.on("unpause", () => {
-    updateActivity(false);
+  player.on("unpause", async () => {
+    await updateActivity(false);
   });
 });
-rpc.login({ clientId }).catch(debug);
+
+async function getName() {
+  const path = await player.getProperty("path");
+
+  if (path.startsWith("https://") || path.startsWith("http://")) {
+    return await player
+      .getProperty("media-title");
+  }
+  const titleData = await anitomy.parse(await player.getProperty("filename"));
+
+  return titleData["episode_number"]
+    ? `${titleData["anime_title"]} ep. ${titleData["episode_number"]}`
+    : titleData["anime_title"];
+}
 
 async function updateActivity(pause = false) {
-  const titleData = await anitomy.parse(await player.getProperty("filename"));
+  const details = await getName();
+
   rpc.setActivity({
-    details: titleData["episode_number"]
-      ? `${titleData["anime_title"]} ep. ${titleData["episode_number"]}`
-      : titleData["anime_title"],
+    details: details,
     endTimestamp: pause
       ? 0
       : Date.now() + (await player.getProperty("time-remaining")) * 1000,
@@ -42,3 +55,7 @@ async function updateActivity(pause = false) {
     smallImageKey: pause ? "pause" : "play"
   });
 }
+
+(async () => {
+  await rpc.login({ clientId });
+})();
